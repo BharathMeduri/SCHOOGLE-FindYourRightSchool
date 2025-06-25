@@ -14,6 +14,10 @@ interface School {
   studentCount: number;
   established: number;
   contact: string;
+  coordinates: {
+    lat: number;
+    lng: number;
+  };
 }
 
 interface SchoolCardProps {

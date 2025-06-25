@@ -5,6 +5,7 @@ import SearchFilters from '@/components/SearchFilters';
 import SchoolCard from '@/components/SchoolCard';
 import { mockSchools } from '@/data/mockSchools';
 import { useToast } from '@/hooks/use-toast';
+import { getCityCoordinates, calculateDistance } from '@/utils/locationUtils';
 
 const Index = () => {
   const [location, setLocation] = useState('');
@@ -14,9 +15,34 @@ const Index = () => {
   const { toast } = useToast();
 
   const filteredSchools = useMemo(() => {
-    if (!isSearched) return [];
+    if (!isSearched || !location.trim()) return [];
     
-    return mockSchools
+    const userCoordinates = getCityCoordinates(location);
+    if (!userCoordinates) {
+      console.log('Location not found:', location);
+      return [];
+    }
+
+    console.log('User coordinates:', userCoordinates);
+    console.log('Radius:', radius);
+    
+    const schoolsWithDistance = mockSchools.map(school => {
+      const distance = calculateDistance(
+        userCoordinates.lat,
+        userCoordinates.lng,
+        school.coordinates.lat,
+        school.coordinates.lng
+      );
+      
+      console.log(`Distance to ${school.name}:`, distance, 'km');
+      
+      return {
+        ...school,
+        distance: distance
+      };
+    });
+    
+    return schoolsWithDistance
       .filter(school => {
         // Filter by distance
         const withinRadius = school.distance <= parseFloat(radius);
@@ -26,10 +52,12 @@ const Index = () => {
           school.board.toLowerCase().includes(syllabus.toLowerCase()) ||
           (syllabus === 'state' && school.board.includes('State'));
         
+        console.log(`${school.name}: distance=${school.distance}, withinRadius=${withinRadius}, matchesSyllabus=${matchesSyllabus}`);
+        
         return withinRadius && matchesSyllabus;
       })
       .sort((a, b) => a.distance - b.distance); // Sort by distance (nearest first)
-  }, [radius, syllabus, isSearched]);
+  }, [location, radius, syllabus, isSearched]);
 
   const handleSearch = () => {
     if (!location.trim()) {
@@ -41,10 +69,32 @@ const Index = () => {
       return;
     }
 
+    const userCoordinates = getCityCoordinates(location);
+    if (!userCoordinates) {
+      toast({
+        title: "Location Not Found",
+        description: "Please enter a valid city name or pincode (e.g., Bangalore, 560001).",
+        variant: "destructive",
+      });
+      return;
+    }
+
     setIsSearched(true);
+    
+    // Calculate results for toast message
+    const schoolsInRadius = mockSchools.filter(school => {
+      const distance = calculateDistance(
+        userCoordinates.lat,
+        userCoordinates.lng,
+        school.coordinates.lat,
+        school.coordinates.lng
+      );
+      return distance <= parseFloat(radius);
+    });
+
     toast({
       title: "Search Complete",
-      description: `Found ${filteredSchools.length} schools within ${radius}km of ${location}`,
+      description: `Found ${schoolsInRadius.length} schools within ${radius}km of ${location}`,
     });
   };
 
