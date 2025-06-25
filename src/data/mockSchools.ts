@@ -26,7 +26,7 @@ export const mockSchools: School[] = [
     studentCount: 2500,
     established: 1985,
     contact: '+91-124-4560000',
-    coordinates: { lat: 28.4089, lng: 77.0478 } // Gurgaon
+    coordinates: { lat: 28.4089, lng: 77.0478 }
   },
   {
     id: '2',
@@ -38,7 +38,7 @@ export const mockSchools: School[] = [
     studentCount: 1800,
     established: 1990,
     contact: '+91-11-26890000',
-    coordinates: { lat: 28.5200, lng: 77.1600 } // New Delhi
+    coordinates: { lat: 28.5200, lng: 77.1600 }
   },
   {
     id: '3',
@@ -50,7 +50,7 @@ export const mockSchools: School[] = [
     studentCount: 1200,
     established: 1865,
     contact: '+91-80-22212775',
-    coordinates: { lat: 12.9716, lng: 77.5946 } // Bangalore
+    coordinates: { lat: 12.9716, lng: 77.5946 }
   },
   {
     id: '4',
@@ -62,7 +62,7 @@ export const mockSchools: School[] = [
     studentCount: 2200,
     established: 1988,
     contact: '+91-80-23344444',
-    coordinates: { lat: 12.9896, lng: 77.5550 } // Bangalore
+    coordinates: { lat: 12.9896, lng: 77.5550 }
   },
   {
     id: '5',
@@ -74,7 +74,7 @@ export const mockSchools: School[] = [
     studentCount: 800,
     established: 1965,
     contact: '+91-80-23412345',
-    coordinates: { lat: 13.0358, lng: 77.5970 } // Bangalore
+    coordinates: { lat: 13.0358, lng: 77.5970 }
   },
   {
     id: '6',
@@ -86,7 +86,7 @@ export const mockSchools: School[] = [
     studentCount: 1500,
     established: 2005,
     contact: '+91-80-28440000',
-    coordinates: { lat: 12.9010, lng: 77.6370 } // Bangalore
+    coordinates: { lat: 12.9010, lng: 77.6370 }
   },
   {
     id: '7',
@@ -98,11 +98,11 @@ export const mockSchools: School[] = [
     studentCount: 500,
     established: 2009,
     contact: '+91-80-28520000',
-    coordinates: { lat: 12.8546, lng: 77.6211 } // Bangalore
+    coordinates: { lat: 12.8546, lng: 77.6211 }
   },
   {
     id: '8',
-    name: 'St. Joseph's Boys High School',
+    name: 'St. Joseph\'s Boys High School',
     address: 'Museum Road, Bangalore, Karnataka',
     board: 'ICSE',
     distance: 8.4,
@@ -110,6 +110,6 @@ export const mockSchools: School[] = [
     studentCount: 3000,
     established: 1858,
     contact: '+91-80-22867142',
-    coordinates: { lat: 12.9698, lng: 77.6006 } // Bangalore
+    coordinates: { lat: 12.9698, lng: 77.6006 }
   }
 ];
