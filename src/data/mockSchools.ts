@@ -9,6 +9,7 @@ export interface School {
   studentCount: number;
   established: number;
   contact: string;
+  schoolLevel: string;
   coordinates: {
     lat: number;
     lng: number;
@@ -26,6 +27,7 @@ export const mockSchools: School[] = [
     studentCount: 2500,
     established: 1985,
     contact: '+91-124-4560000',
+    schoolLevel: 'playgroup-12',
     coordinates: { lat: 28.4089, lng: 77.0478 }
   },
   {
@@ -38,6 +40,7 @@ export const mockSchools: School[] = [
     studentCount: 1800,
     established: 1990,
     contact: '+91-11-26890000',
+    schoolLevel: '1-12',
     coordinates: { lat: 28.5200, lng: 77.1600 }
   },
   {
@@ -50,6 +53,7 @@ export const mockSchools: School[] = [
     studentCount: 1200,
     established: 1865,
     contact: '+91-80-22212775',
+    schoolLevel: '6-12',
     coordinates: { lat: 12.9716, lng: 77.5946 }
   },
   {
@@ -62,6 +66,7 @@ export const mockSchools: School[] = [
     studentCount: 2200,
     established: 1988,
     contact: '+91-80-23344444',
+    schoolLevel: 'playgroup-12',
     coordinates: { lat: 12.9896, lng: 77.5550 }
   },
   {
@@ -74,6 +79,7 @@ export const mockSchools: School[] = [
     studentCount: 800,
     established: 1965,
     contact: '+91-80-23412345',
+    schoolLevel: '1-12',
     coordinates: { lat: 13.0358, lng: 77.5970 }
   },
   {
@@ -86,6 +92,7 @@ export const mockSchools: School[] = [
     studentCount: 1500,
     established: 2005,
     contact: '+91-80-28440000',
+    schoolLevel: 'playgroup-10',
     coordinates: { lat: 12.9010, lng: 77.6370 }
   },
   {
@@ -98,6 +105,7 @@ export const mockSchools: School[] = [
     studentCount: 500,
     established: 2009,
     contact: '+91-80-28520000',
+    schoolLevel: 'playgroup-12',
     coordinates: { lat: 12.8546, lng: 77.6211 }
   },
   {
@@ -110,6 +118,7 @@ export const mockSchools: School[] = [
     studentCount: 3000,
     established: 1858,
     contact: '+91-80-22867142',
+    schoolLevel: 'high',
     coordinates: { lat: 12.9698, lng: 77.6006 }
   }
 ];

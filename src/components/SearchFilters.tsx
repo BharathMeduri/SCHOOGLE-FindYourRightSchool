@@ -1,6 +1,6 @@
 
 import React from 'react';
-import { MapPin, GraduationCap, Search } from 'lucide-react';
+import { MapPin, GraduationCap, Search, School } from 'lucide-react';
 import { Input } from '@/components/ui/input';
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@/components/ui/select';
 import { Button } from '@/components/ui/button';
@@ -9,20 +9,28 @@ import { Card, CardContent } from '@/components/ui/card';
 interface SearchFiltersProps {
   location: string;
   setLocation: (location: string) => void;
+  cityTown: string;
+  setCityTown: (cityTown: string) => void;
   radius: string;
   setRadius: (radius: string) => void;
   syllabus: string;
   setSyllabus: (syllabus: string) => void;
+  schoolLevel: string;
+  setSchoolLevel: (schoolLevel: string) => void;
   onSearch: () => void;
 }
 
 const SearchFilters: React.FC<SearchFiltersProps> = ({
   location,
   setLocation,
+  cityTown,
+  setCityTown,
   radius,
   setRadius,
   syllabus,
   setSyllabus,
+  schoolLevel,
+  setSchoolLevel,
   onSearch,
 }) => {
   const radiusOptions = [
@@ -46,20 +54,48 @@ const SearchFilters: React.FC<SearchFiltersProps> = ({
     { value: 'montessori', label: 'Montessori' },
   ];
 
+  const schoolLevelOptions = [
+    { value: 'all', label: 'All School Levels' },
+    { value: 'playschool', label: 'Playschool Only' },
+    { value: 'primary', label: 'Primary School' },
+    { value: 'high', label: 'High School' },
+    { value: 'playgroup-5', label: 'Playgroup to Class 5' },
+    { value: 'playgroup-8', label: 'Playgroup to Class 8' },
+    { value: 'playgroup-10', label: 'Playgroup to Class 10' },
+    { value: 'playgroup-12', label: 'Playgroup to Class 12' },
+    { value: '1-10', label: 'Class 1 to 10' },
+    { value: '1-12', label: 'Class 1 to 12' },
+    { value: '6-12', label: 'Class 6 to 12' },
+  ];
+
   return (
     <Card className="w-full shadow-lg border-0 bg-white">
       <CardContent className="p-6">
-        <div className="grid grid-cols-1 md:grid-cols-4 gap-4 items-end">
+        <div className="grid grid-cols-1 md:grid-cols-3 lg:grid-cols-6 gap-4 items-end">
           <div className="space-y-2">
             <label className="text-sm font-medium text-gray-700 flex items-center">
               <MapPin className="w-4 h-4 mr-2" />
-              Location
+              Location/Pincode
             </label>
             <Input
               type="text"
-              placeholder="Enter city, area, or pincode"
+              placeholder="Enter area or pincode"
               value={location}
               onChange={(e) => setLocation(e.target.value)}
+              className="w-full"
+            />
+          </div>
+
+          <div className="space-y-2">
+            <label className="text-sm font-medium text-gray-700 flex items-center">
+              <MapPin className="w-4 h-4 mr-2" />
+              City/Town
+            </label>
+            <Input
+              type="text"
+              placeholder="Enter city or town"
+              value={cityTown}
+              onChange={(e) => setCityTown(e.target.value)}
               className="w-full"
             />
           </div>
@@ -91,6 +127,25 @@ const SearchFilters: React.FC<SearchFiltersProps> = ({
               </SelectTrigger>
               <SelectContent>
                 {syllabusOptions.map((option) => (
+                  <SelectItem key={option.value} value={option.value}>
+                    {option.label}
+                  </SelectItem>
+                ))}
+              </SelectContent>
+            </Select>
+          </div>
+
+          <div className="space-y-2">
+            <label className="text-sm font-medium text-gray-700 flex items-center">
+              <School className="w-4 h-4 mr-2" />
+              School Level
+            </label>
+            <Select value={schoolLevel} onValueChange={setSchoolLevel}>
+              <SelectTrigger>
+                <SelectValue placeholder="Select level" />
+              </SelectTrigger>
+              <SelectContent>
+                {schoolLevelOptions.map((option) => (
                   <SelectItem key={option.value} value={option.value}>
                     {option.label}
                   </SelectItem>

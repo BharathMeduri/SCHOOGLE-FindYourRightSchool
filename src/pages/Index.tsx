@@ -9,22 +9,29 @@ import { getCityCoordinates, calculateDistance } from '@/utils/locationUtils';
 
 const Index = () => {
   const [location, setLocation] = useState('');
+  const [cityTown, setCityTown] = useState('');
   const [radius, setRadius] = useState('5');
   const [syllabus, setSyllabus] = useState('all');
+  const [schoolLevel, setSchoolLevel] = useState('all');
   const [isSearched, setIsSearched] = useState(false);
   const { toast } = useToast();
 
   const filteredSchools = useMemo(() => {
-    if (!isSearched || !location.trim()) return [];
+    if (!isSearched) return [];
     
-    const userCoordinates = getCityCoordinates(location);
+    // Determine which location to use for search
+    const searchLocation = location.trim() || cityTown.trim();
+    if (!searchLocation) return [];
+    
+    const userCoordinates = getCityCoordinates(searchLocation);
     if (!userCoordinates) {
-      console.log('Location not found:', location);
+      console.log('Location not found:', searchLocation);
       return [];
     }
 
     console.log('User coordinates:', userCoordinates);
     console.log('Radius:', radius);
+    console.log('School Level Filter:', schoolLevel);
     
     const schoolsWithDistance = mockSchools.map(school => {
       const distance = calculateDistance(
@@ -52,24 +59,29 @@ const Index = () => {
           school.board.toLowerCase().includes(syllabus.toLowerCase()) ||
           (syllabus === 'state' && school.board.includes('State'));
         
-        console.log(`${school.name}: distance=${school.distance}, withinRadius=${withinRadius}, matchesSyllabus=${matchesSyllabus}`);
+        // Filter by school level
+        const matchesSchoolLevel = schoolLevel === 'all' || school.schoolLevel === schoolLevel;
         
-        return withinRadius && matchesSyllabus;
+        console.log(`${school.name}: distance=${school.distance}, withinRadius=${withinRadius}, matchesSyllabus=${matchesSyllabus}, matchesSchoolLevel=${matchesSchoolLevel}`);
+        
+        return withinRadius && matchesSyllabus && matchesSchoolLevel;
       })
       .sort((a, b) => a.distance - b.distance); // Sort by distance (nearest first)
-  }, [location, radius, syllabus, isSearched]);
+  }, [location, cityTown, radius, syllabus, schoolLevel, isSearched]);
 
   const handleSearch = () => {
-    if (!location.trim()) {
+    const searchLocation = location.trim() || cityTown.trim();
+    
+    if (!searchLocation) {
       toast({
         title: "Location Required",
-        description: "Please enter a location to search for schools.",
+        description: "Please enter a location or city/town to search for schools.",
         variant: "destructive",
       });
       return;
     }
 
-    const userCoordinates = getCityCoordinates(location);
+    const userCoordinates = getCityCoordinates(searchLocation);
     if (!userCoordinates) {
       toast({
         title: "Location Not Found",
@@ -94,7 +106,7 @@ const Index = () => {
 
     toast({
       title: "Search Complete",
-      description: `Found ${schoolsInRadius.length} schools within ${radius}km of ${location}`,
+      description: `Found ${schoolsInRadius.length} schools within ${radius}km of ${searchLocation}`,
     });
   };
 
@@ -127,17 +139,21 @@ const Index = () => {
             </h2>
             <p className="text-gray-600 max-w-2xl mx-auto">
               Discover quality schools in your area with comprehensive information about facilities, 
-              curriculum, and more. Filter by distance and educational board to find the best match.
+              curriculum, and school levels. Filter by distance, educational board, and grade levels to find the best match.
             </p>
           </div>
           
           <SearchFilters
             location={location}
             setLocation={setLocation}
+            cityTown={cityTown}
+            setCityTown={setCityTown}
             radius={radius}
             setRadius={setRadius}
             syllabus={syllabus}
             setSyllabus={setSyllabus}
+            schoolLevel={schoolLevel}
+            setSchoolLevel={setSchoolLevel}
             onSearch={handleSearch}
           />
         </div>
@@ -151,7 +167,7 @@ const Index = () => {
               </h3>
               <p className="text-gray-600">
                 {filteredSchools.length} school{filteredSchools.length !== 1 ? 's' : ''} found
-                {location && ` near ${location}`}
+                {(location || cityTown) && ` near ${location || cityTown}`}
               </p>
             </div>
 
@@ -166,7 +182,7 @@ const Index = () => {
                 <School className="w-16 h-16 text-gray-400 mx-auto mb-4" />
                 <h3 className="text-xl font-semibold text-gray-600 mb-2">No Schools Found</h3>
                 <p className="text-gray-500 max-w-md mx-auto">
-                  Try adjusting your search criteria - increase the distance radius or select a different syllabus option.
+                  Try adjusting your search criteria - increase the distance radius, select a different syllabus option, or change the school level filter.
                 </p>
               </div>
             )}
@@ -182,9 +198,9 @@ const Index = () => {
                 Welcome to SCHOOGLE
               </h3>
               <p className="text-gray-600 mb-6 leading-relaxed">
-                Your comprehensive school finder for India. Search for schools by location and 
-                educational board, get detailed information about facilities, and make informed 
-                decisions about your child's education.
+                Your comprehensive school finder for India. Search for schools by location, city, 
+                educational board, and school level. Get detailed information about facilities and 
+                make informed decisions about your child's education.
               </p>
               <div className="grid grid-cols-1 md:grid-cols-3 gap-4 text-sm">
                 <div className="bg-blue-50 p-4 rounded-lg">
@@ -192,8 +208,8 @@ const Index = () => {
                   <p className="text-blue-600">Find schools within your preferred distance range</p>
                 </div>
                 <div className="bg-green-50 p-4 rounded-lg">
-                  <h4 className="font-semibold text-green-800 mb-2">Curriculum Options</h4>
-                  <p className="text-green-600">Filter by CBSE, ICSE, State Boards, and more</p>
+                  <h4 className="font-semibold text-green-800 mb-2">School Level Filter</h4>
+                  <p className="text-green-600">Filter by playschool, primary, high school levels</p>
                 </div>
                 <div className="bg-purple-50 p-4 rounded-lg">
                   <h4 className="font-semibold text-purple-800 mb-2">Detailed Information</h4>
