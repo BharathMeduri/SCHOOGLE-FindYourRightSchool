@@ -16,6 +16,39 @@ const Index = () => {
   const [isSearched, setIsSearched] = useState(false);
   const { toast } = useToast();
 
+  // Helper function to check if a school matches the selected school level
+  const matchesSchoolLevel = (schoolLevel: string, schoolData: any): boolean => {
+    if (schoolLevel === 'all') return true;
+    
+    const schoolLevelData = schoolData.schoolLevel;
+    
+    // Handle specific level matches
+    switch (schoolLevel) {
+      case 'playschool':
+        return schoolLevelData.includes('playgroup') || schoolLevelData === 'playschool';
+      case 'primary':
+        return schoolLevelData.includes('1-') || schoolLevelData.includes('playgroup-5') || schoolLevelData === 'primary';
+      case 'high':
+        return schoolLevelData === 'high' || schoolLevelData.includes('-12') || schoolLevelData.includes('6-12');
+      case 'playgroup-5':
+        return schoolLevelData === 'playgroup-5' || schoolLevelData.includes('playgroup-8') || schoolLevelData.includes('playgroup-10') || schoolLevelData.includes('playgroup-12');
+      case 'playgroup-8':
+        return schoolLevelData === 'playgroup-8' || schoolLevelData.includes('playgroup-10') || schoolLevelData.includes('playgroup-12');
+      case 'playgroup-10':
+        return schoolLevelData === 'playgroup-10' || schoolLevelData.includes('playgroup-12');
+      case 'playgroup-12':
+        return schoolLevelData === 'playgroup-12';
+      case '1-10':
+        return schoolLevelData === '1-10' || schoolLevelData === '1-12';
+      case '1-12':
+        return schoolLevelData === '1-12';
+      case '6-12':
+        return schoolLevelData === '6-12';
+      default:
+        return schoolLevelData === schoolLevel;
+    }
+  };
+
   const filteredSchools = useMemo(() => {
     if (!isSearched) return [];
     
@@ -59,12 +92,12 @@ const Index = () => {
           school.board.toLowerCase().includes(syllabus.toLowerCase()) ||
           (syllabus === 'state' && school.board.includes('State'));
         
-        // Filter by school level
-        const matchesSchoolLevel = schoolLevel === 'all' || school.schoolLevel === schoolLevel;
+        // Filter by school level using the new helper function
+        const matchesLevel = matchesSchoolLevel(schoolLevel, school);
         
-        console.log(`${school.name}: distance=${school.distance}, withinRadius=${withinRadius}, matchesSyllabus=${matchesSyllabus}, matchesSchoolLevel=${matchesSchoolLevel}`);
+        console.log(`${school.name}: distance=${school.distance}, withinRadius=${withinRadius}, matchesSyllabus=${matchesSyllabus}, matchesSchoolLevel=${matchesLevel}`);
         
-        return withinRadius && matchesSyllabus && matchesSchoolLevel;
+        return withinRadius && matchesSyllabus && matchesLevel;
       })
       .sort((a, b) => a.distance - b.distance); // Sort by distance (nearest first)
   }, [location, cityTown, radius, syllabus, schoolLevel, isSearched]);
