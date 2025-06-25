@@ -1,4 +1,3 @@
-
 // Function to calculate distance between two coordinates using Haversine formula
 export const calculateDistance = (
   lat1: number,
@@ -100,9 +99,9 @@ export const getCityCoordinates = (location: string): { lat: number; lng: number
     '560063': { lat: 12.9539, lng: 77.4905 }, // Vidhana Soudha
     '560064': { lat: 12.9591, lng: 77.5647 }, // Gandhinagar
     '560065': { lat: 12.9716, lng: 77.5946 }, // Raj Bhavan
-    '560066': { lat: 12.9351, lng: 77.6245 }, // Malleswaram West
-    '560067': { lat: 12.9279, lng: 77.6271 }, // Rajajinagar Industrial Estate
-    '560068': { lat: 13.0067, lng: 77.5663 }, // Peenya Industrial Area
+    '560066': { lat: 12.9851, lng: 77.7279 }, // ITPL / Marathahalli
+    '560067': { lat: 12.8449, lng: 77.6690 }, // Electronic City Phase 1
+    '560068': { lat: 12.8352, lng: 77.6645 }, // Electronic City Phase 2
     '560069': { lat: 12.9539, lng: 77.4905 }, // Peenya
     '560070': { lat: 12.9591, lng: 77.5647 }, // Benson Town
     '560071': { lat: 12.9716, lng: 77.5946 }, // Pulakeshi Nagar
@@ -134,23 +133,14 @@ export const getCityCoordinates = (location: string): { lat: number; lng: number
     '560097': { lat: 12.9279, lng: 77.6271 }, // HSR Layout
     '560098': { lat: 13.0067, lng: 77.5663 }, // HSR Layout Sector 1
     '560099': { lat: 12.9539, lng: 77.4905 }, // HSR Layout Sector 2
-    '560100': { lat: 12.9591, lng: 77.5647 }, // HSR Layout Sector 3
+    '560100': { lat: 12.9010, lng: 77.6370 }, // Sarjapur Road / HSR Layout Sector 3
+    '560103': { lat: 12.9698, lng: 77.7500 }, // Whitefield
     
     // Additional Bangalore areas (561xxx series)
     '561201': { lat: 13.1986, lng: 77.7066 }, // Chikkaballapur
     '561203': { lat: 13.0358, lng: 77.5970 }, // Yelahanka
     '561204': { lat: 13.0674, lng: 77.5764 }, // Thanisandra
     '561229': { lat: 13.1478, lng: 77.5721 }, // Doddaballapur
-    
-    // ITPL and Electronic City areas (560xxx continued)
-    '560066': { lat: 12.9851, lng: 77.7279 }, // ITPL
-    '560067': { lat: 12.8449, lng: 77.6690 }, // Electronic City Phase 1
-    '560068': { lat: 12.8352, lng: 77.6645 }, // Electronic City Phase 2
-    '560100': { lat: 12.9010, lng: 77.6370 }, // Sarjapur Road
-    '560103': { lat: 12.9698, lng: 77.7500 }, // Whitefield
-    '560066': { lat: 12.9279, lng: 77.6890 }, // Marathahalli
-    '560037': { lat: 12.9538, lng: 77.6229 }, // Jeevanbheemanagar
-    '560038': { lat: 12.9540, lng: 77.6500 }, // Hal Airport Road
     
     // Delhi variations
     'delhi': { lat: 28.6139, lng: 77.2090 },
